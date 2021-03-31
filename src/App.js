@@ -1,25 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import { useSelector } from "react-redux";
+import RouteComponemt from "./components/common/RouteComponent";
+import NavigationComponent from './components/common/NavigationComponent';
+import SideBar from './components/common/SideBarComponent';
 
-function App() {
+const App = () => {
+
+  const userSignIn = useSelector((state) => state.userSignIn);
+  const { userInfo } = userSignIn;
+
+  const [sidebarIsOpen, setSidebarOpen] = useState(true);
+  const toggleSidebar = () => setSidebarOpen(!sidebarIsOpen);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App wrapper">
+        {userInfo ? (
+          <SideBar toggle={toggleSidebar} isOpen={sidebarIsOpen} />
+        ) : (
+            <h1></h1>
+          )}
+        <RouteComponemt toggleSidebar={toggleSidebar} sidebarIsOpen={sidebarIsOpen} />
+
+      </div>
+    </Router>
   );
-}
+};
+
 
 export default App;
